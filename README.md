@@ -1,2 +1,2 @@
-# Movie-App-Angular-
+# Movie App Angular
 Sample app with crud operations.
