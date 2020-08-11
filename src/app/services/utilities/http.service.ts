@@ -12,7 +12,7 @@ export class HttpService {
     url: string,
     header: any = { 'content-Type': 'application/json' }
   ): Observable<any> {
-    return this.http.get(url, this.createHeader(header));
+    return this.http.get(url);
   }
 
   post(
@@ -20,7 +20,7 @@ export class HttpService {
     body: any,
     header: any = { 'content-Type': 'application/json' }
   ): Observable<any> {
-    return this.http.post(url, body, this.createHeader(header));
+    return this.http.post(url, body);
   }
 
   private createHeader(headers: any): any {
