@@ -4,6 +4,9 @@ import { Movie } from '../../../models/movie';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ConfirmComponent } from 'src/app/shared/components/confirm/confirm.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MovieAddEditComponent } from '../movie-add-edit/movie-add-edit.component';
 
 @Component({
   selector: 'app-movie-list',
@@ -15,9 +18,11 @@ export class MovieListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource: MatTableDataSource<Movie>;
-  displayedColumns: string[] = ['Title', 'Year', 'Cast', 'Genres'];
+  displayedColumns: string[] = ['Title', 'Year', 'Cast', 'Genres', 'actions'];
+  public search = '';
+  value: any;
 
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: MovieService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Movie>();
@@ -35,5 +40,63 @@ export class MovieListComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  applyFilter(filterValue: string): void {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
+  add(): void {
+    const dialogRef = this.dialog.open(MovieAddEditComponent, {
+      width: '500px',
+      data: { isEdit: false, title: 'Add New Movie'}
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.dataSource.data.push({
+        title: result.title,
+        year: result.year,
+        cast: result.cast,
+        genres: result.genres
+      });
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  edit(item: Movie): void {
+    const dialogRef = this.dialog.open(MovieAddEditComponent, {
+      width: '500px',
+      data: { isEdit: true , title: 'Edit Movie', item}
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(result);
+      // this.dataSource.data = this.dataSource.data.filter((value, key) => {
+      //   if (JSON.stringify(value) === JSON.stringify(result.receivedItem)){
+      //     value = result.movie;
+      //   }
+      // });
+    });
+  }
+
+  delete(item: Movie): void {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '250px',
+      data: {
+        title: 'Delete record',
+        message: 'Are you sure you want to delete this record?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.dataSource.data = this.dataSource.data.filter((value, key) => {
+          return value.title !== item.title;
+        });
+      }
+    });
   }
 }

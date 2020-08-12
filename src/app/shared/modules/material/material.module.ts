@@ -30,25 +30,26 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSliderModule } from '@angular/material/slider';
-import { Context } from 'vm';
+// import { Context } from 'vm';
 // import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatGridListModule } from '@angular/material/grid-list';
 
-export const DateAdapter: InjectionToken<Context> = new InjectionToken<Context>(
-  'DateAdapter'
-);
-export const MatDialogRef: InjectionToken<Context> = new InjectionToken<
-  Context
->('MatDialogRef');
-export const MAT_DATE_LOCALE: InjectionToken<Context> = new InjectionToken<
-  Context
->('MAT_DATE_LOCALE');
-export const MAT_DATE_FORMATS: InjectionToken<Context> = new InjectionToken<
-  Context
->('MAT_DATE_FORMATS');
-export const MAT_DIALOG_DATA: InjectionToken<Context> = new InjectionToken<
-  Context
->('MAT_DIALOG_DATA');
+// export const DateAdapter: InjectionToken<Context> = new InjectionToken<Context>(
+//   'DateAdapter'
+// );
+// export const MatDialogRef: InjectionToken<Context> = new InjectionToken<
+//   Context
+// >('MatDialogRef');
+// export const MAT_DATE_LOCALE: InjectionToken<Context> = new InjectionToken<
+//   Context
+// >('MAT_DATE_LOCALE');
+// export const MAT_DATE_FORMATS: InjectionToken<Context> = new InjectionToken<
+//   Context
+// >('MAT_DATE_FORMATS');
+// export const MAT_DIALOG_DATA: InjectionToken<Context> = new InjectionToken<
+//   Context
+// >('MAT_DIALOG_DATA');
 @NgModule({
   declarations: [],
   imports: [
@@ -89,6 +90,7 @@ export const MAT_DIALOG_DATA: InjectionToken<Context> = new InjectionToken<
     MatBadgeModule,
     MatSliderModule,
     DragDropModule,
+    MatGridListModule
   ],
   exports: [
     MatButtonModule,
@@ -127,6 +129,7 @@ export const MAT_DIALOG_DATA: InjectionToken<Context> = new InjectionToken<
     MatBadgeModule,
     MatSliderModule,
     DragDropModule,
+    MatGridListModule
   ],
 })
 export class MaterialModule {}

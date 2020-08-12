@@ -1,32 +1,50 @@
-<p>
-  <mat-form-field appearance="legacy">
-    <mat-label>Title</mat-label>
-    <input matInput placeholder="Placeholder" />
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
-<p>
-  <mat-form-field appearance="standard">
-    <mat-label>Year</mat-label>
-    <input matInput placeholder="Placeholder" />
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
-<p>
-  <mat-form-field appearance="fill">
-    <mat-label>Cast</mat-label>
-    <input matInput placeholder="Placeholder" />
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
-<p>
-  <mat-form-field appearance="outline">
-    <mat-label>Genres</mat-label>
-    <input matInput placeholder="Placeholder" />
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<form [formGroup]="movieAddEditForm">
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="ex : Enter the dragon" formControlName="Title" required />
+      <mat-error *ngIf="movieAddEditForm.controls['Title'].hasError('required')">
+        * Movie Title is required.
+      </mat-error>
+      <mat-error *ngIf="movieAddEditForm.controls['Title'].hasError('maxlength')">
+        * Max 100 characters exceed!
+      </mat-error>
+      <mat-hint>Hint (ex : Enter the dragon)</mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Year</mat-label>
+      <input type="number" matInput placeholder="ex : 1995" formControlName="Year" required />
+      <mat-error *ngIf="movieAddEditForm.controls['Year'].hasError('required')">
+        * Movie Year is required.
+      </mat-error>
+      <mat-hint>Hint (ex : 1995)</mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Cast</mat-label>
+      <input matInput placeholder="ex : Tom Cruise" formControlName="Cast"/>
+      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+      <mat-hint>Hint (ex : Tom Cruise)</mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Genres</mat-label>
+      <input matInput placeholder="ex : Comedy" formControlName="Genres"/>
+      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+      <mat-hint>Hint (ex : Comedy)</mat-hint>
+    </mat-form-field>
+  </p>
+
+  <div mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]>Cancel</button>
+    <button mat-raised-button color="primary" class="btnSave" (click)="save()">
+      <mat-icon aria-label="icon-button">save</mat-icon>
+      <span>Save</span>
+    </button>
+  </div>
+</form>
