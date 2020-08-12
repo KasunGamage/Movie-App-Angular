@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { ConfirmComponent } from 'src/app/shared/components/confirm/confirm.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MovieAddEditComponent } from '../movie-add-edit/movie-add-edit.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-movie-list',
@@ -22,7 +23,7 @@ export class MovieListComponent implements OnInit {
   public search = '';
   value: any;
 
-  constructor(private movieService: MovieService, public dialog: MatDialog) {}
+  constructor(private movieService: MovieService, public dialog: MatDialog, public snack: MatSnackBar) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Movie>();
@@ -51,34 +52,44 @@ export class MovieListComponent implements OnInit {
   add(): void {
     const dialogRef = this.dialog.open(MovieAddEditComponent, {
       width: '500px',
-      data: { isEdit: false, title: 'Add New Movie'}
+      data: { isEdit: false, title: 'Add New Movie' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-      this.dataSource.data.push({
-        title: result.title,
-        year: result.year,
-        cast: result.cast,
-        genres: result.genres
-      });
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.snack.open('Movie added successfully!', 'Close', {
+          duration: 3000
+        });
+        this.dataSource.data.push({
+          title: result.title,
+          year: result.year,
+          cast: result.cast,
+          genres: result.genres,
+        });
+        this.dataSource._updateChangeSubscription();
+        // this.dataSource._updatePaginator();
+      }
     });
   }
 
   edit(item: Movie): void {
     const dialogRef = this.dialog.open(MovieAddEditComponent, {
       width: '500px',
-      data: { isEdit: true , title: 'Edit Movie', item}
+      data: { isEdit: true, title: 'Edit Movie', item },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      console.log(result);
-      // this.dataSource.data = this.dataSource.data.filter((value, key) => {
-      //   if (JSON.stringify(value) === JSON.stringify(result.receivedItem)){
-      //     value = result.movie;
-      //   }
-      // });
+      if (result) {
+        this.snack.open('Movie updated successfully!', 'Close', {
+          duration: 3000
+        });
+        // this.dataSource.data = this.dataSource.data.filter((value, key) => {
+        //   if (JSON.stringify(value) === JSON.stringify(result.receivedItem)){
+        //     value = result.movie;
+        //   }
+        // });
+        this.dataSource._updateChangeSubscription();
+      }
     });
   }
 

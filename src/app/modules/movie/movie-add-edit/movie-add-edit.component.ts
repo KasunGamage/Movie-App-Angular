@@ -1,12 +1,19 @@
 import { Movie } from './../../../models/movie';
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
+  FormControl,
 } from '@angular/forms';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-movie-add-edit',
@@ -15,6 +22,16 @@ import {
 })
 export class MovieAddEditComponent implements OnInit {
   movieAddEditForm: FormGroup;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  // cast
+  castCtrl = new FormControl();
+  casts: string[] = [];
+
+  // genre
+  genreCtrl = new FormControl();
+  genres: string[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -26,11 +43,11 @@ export class MovieAddEditComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     if (this.data.isEdit === true) {
+      this.casts = this.data.item.cast;
+      this.genres = this.data.item.genres;
       this.movieAddEditForm.patchValue({
         Title: this.data.item.title,
         Year: this.data.item.year,
-        Cast: this.data.item.cast,
-        Genres: this.data.item.genres,
       });
     }
   }
@@ -39,8 +56,6 @@ export class MovieAddEditComponent implements OnInit {
     this.movieAddEditForm = this.formBuilder.group({
       Title: [null, [Validators.required, Validators.maxLength(100)]],
       Year: [null, [Validators.required]],
-      Cast: this.formBuilder.array([]),
-      Genres: this.formBuilder.array([]),
     });
   }
 
@@ -66,8 +81,8 @@ export class MovieAddEditComponent implements OnInit {
     const movie: Movie = {
       title: this.movieAddEditForm.value.Title,
       year: this.movieAddEditForm.value.Year,
-      cast: this.movieAddEditForm.value.Cast,
-      genres: this.movieAddEditForm.value.Genres,
+      cast: this.casts,
+      genres: this.genres,
     };
     this.matDialogRef.close(movie);
   }
@@ -77,11 +92,61 @@ export class MovieAddEditComponent implements OnInit {
       movie: {
         title: this.movieAddEditForm.value.Title,
         year: this.movieAddEditForm.value.Year,
-        cast: this.movieAddEditForm.value.Cast,
-        genres: this.movieAddEditForm.value.Genres,
+        cast: this.casts,
+        genres: this.genres,
       },
       receivedItem: this.data.item,
     };
     this.matDialogRef.close(updatedMovie);
+  }
+
+  addCast(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add cast
+    if ((value || '').trim()) {
+      this.casts.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.castCtrl.setValue(null);
+  }
+
+  removeCast(cast: string): void {
+    const index = this.casts.indexOf(cast);
+
+    if (index >= 0) {
+      this.casts.splice(index, 1);
+    }
+  }
+
+  addGenre(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add genre
+    if ((value || '').trim()) {
+      this.genres.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.genreCtrl.setValue(null);
+  }
+
+  removeGenre(genre: string): void {
+    const index = this.genres.indexOf(genre);
+
+    if (index >= 0) {
+      this.genres.splice(index, 1);
+    }
   }
 }

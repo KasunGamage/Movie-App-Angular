@@ -3,11 +3,20 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput placeholder="ex : Enter the dragon" formControlName="Title" required />
-      <mat-error *ngIf="movieAddEditForm.controls['Title'].hasError('required')">
+      <input
+        matInput
+        placeholder="ex : Enter the dragon"
+        formControlName="Title"
+        required
+      />
+      <mat-error
+        *ngIf="movieAddEditForm.controls['Title'].hasError('required')"
+      >
         * Movie Title is required.
       </mat-error>
-      <mat-error *ngIf="movieAddEditForm.controls['Title'].hasError('maxlength')">
+      <mat-error
+        *ngIf="movieAddEditForm.controls['Title'].hasError('maxlength')"
+      >
         * Max 100 characters exceed!
       </mat-error>
       <mat-hint>Hint (ex : Enter the dragon)</mat-hint>
@@ -16,29 +25,59 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Year</mat-label>
-      <input type="number" matInput placeholder="ex : 1995" formControlName="Year" required />
+      <input
+        type="number"
+        matInput
+        placeholder="ex : 1995"
+        formControlName="Year"
+        required
+      />
       <mat-error *ngIf="movieAddEditForm.controls['Year'].hasError('required')">
         * Movie Year is required.
       </mat-error>
       <mat-hint>Hint (ex : 1995)</mat-hint>
     </mat-form-field>
   </p>
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Cast</mat-label>
-      <input matInput placeholder="ex : Tom Cruise" formControlName="Cast"/>
-      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-      <mat-hint>Hint (ex : Tom Cruise)</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Genres</mat-label>
-      <input matInput placeholder="ex : Comedy" formControlName="Genres"/>
-      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-      <mat-hint>Hint (ex : Comedy)</mat-hint>
-    </mat-form-field>
-  </p>
+
+  <mat-form-field appearance="outline" class="example-chip-list">
+    <mat-chip-list #castChipList aria-label="Cast selection">
+      <mat-chip
+        *ngFor="let cast of casts"
+        [removable]="removable"
+        (removed)="removeCast(cast)"
+      >
+        {{ cast }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="New Cast..."
+        [formControl]="castCtrl"
+        [matChipInputFor]="castChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addCast($event)"
+      />
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="example-chip-list">
+    <mat-chip-list #genreList aria-label="Genres selection">
+      <mat-chip
+        *ngFor="let genre of genres"
+        [removable]="removable"
+        (removed)="removeGenre(genre)"
+      >
+        {{ genre }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="New Genre..."
+        [formControl]="genreCtrl"
+        [matChipInputFor]="genreList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addGenre($event)"
+      />
+    </mat-chip-list>
+  </mat-form-field>
 
   <div mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]>Cancel</button>
