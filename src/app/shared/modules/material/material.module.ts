@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -30,26 +30,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSliderModule } from '@angular/material/slider';
-// import { Context } from 'vm';
-// import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatGridListModule } from '@angular/material/grid-list';
 
-// export const DateAdapter: InjectionToken<Context> = new InjectionToken<Context>(
-//   'DateAdapter'
-// );
-// export const MatDialogRef: InjectionToken<Context> = new InjectionToken<
-//   Context
-// >('MatDialogRef');
-// export const MAT_DATE_LOCALE: InjectionToken<Context> = new InjectionToken<
-//   Context
-// >('MAT_DATE_LOCALE');
-// export const MAT_DATE_FORMATS: InjectionToken<Context> = new InjectionToken<
-//   Context
-// >('MAT_DATE_FORMATS');
-// export const MAT_DIALOG_DATA: InjectionToken<Context> = new InjectionToken<
-//   Context
-// >('MAT_DIALOG_DATA');
 @NgModule({
   declarations: [],
   imports: [
@@ -85,7 +68,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatChipsModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
-    // NgxMaterialTimepickerModule,
     MatStepperModule,
     MatBadgeModule,
     MatSliderModule,
@@ -124,7 +106,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatChipsModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
-    // NgxMaterialTimepickerModule,
     MatStepperModule,
     MatBadgeModule,
     MatSliderModule,

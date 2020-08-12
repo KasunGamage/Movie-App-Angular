@@ -67,7 +67,6 @@ export class MovieListComponent implements OnInit {
           genres: result.genres,
         });
         this.dataSource._updateChangeSubscription();
-        // this.dataSource._updatePaginator();
       }
     });
   }
