@@ -27,11 +27,11 @@ export class MovieAddEditComponent implements OnInit {
 
   // cast
   castCtrl = new FormControl();
-  casts: string[] = [];
+  casts: string[];
 
   // genre
   genreCtrl = new FormControl();
-  genres: string[] = [];
+  genres: string[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -42,6 +42,8 @@ export class MovieAddEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.casts = [];
+    this.genres = [];
     if (this.data.isEdit === true) {
       this.casts = this.data.item.cast;
       this.genres = this.data.item.genres;

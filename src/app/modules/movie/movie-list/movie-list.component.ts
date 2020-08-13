@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MovieService } from '../../../services/api/movie.service';
 import { Movie } from '../../../models/movie';
 import { MatTableDataSource } from '@angular/material/table';
@@ -60,7 +60,8 @@ export class MovieListComponent implements OnInit {
         this.snack.open('Movie added successfully!', 'Close', {
           duration: 3000
         });
-        this.dataSource.data.push({
+        // push to beginning of the array
+        this.dataSource.data.unshift({
           title: result.title,
           year: result.year,
           cast: result.cast,
@@ -82,11 +83,17 @@ export class MovieListComponent implements OnInit {
         this.snack.open('Movie updated successfully!', 'Close', {
           duration: 3000
         });
-        // this.dataSource.data = this.dataSource.data.filter((value, key) => {
-        //   if (JSON.stringify(value) === JSON.stringify(result.receivedItem)){
-        //     value = result.movie;
-        //   }
-        // });
+        const data = this.dataSource.data.filter((value, key) => {
+          if ((value.title === result.receivedItem.title) && (value.year === result.receivedItem.year)){
+            value.title = result.movie.title;
+            value.year = result.movie.year;
+            value.cast = result.movie.cast;
+            value.genres = result.movie.genres;
+          }
+          return true;
+        });
+        this.dataSource.data = [];
+        this.dataSource.data = data;
         this.dataSource._updateChangeSubscription();
       }
     });
@@ -105,6 +112,9 @@ export class MovieListComponent implements OnInit {
       if (result) {
         this.dataSource.data = this.dataSource.data.filter((value, key) => {
           return value.title !== item.title;
+        });
+        this.snack.open('Movie deleted successfully!', 'Close', {
+          duration: 3000
         });
       }
     });
