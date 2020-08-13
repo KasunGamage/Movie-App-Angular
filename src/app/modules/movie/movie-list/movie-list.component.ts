@@ -80,9 +80,6 @@ export class MovieListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        this.snack.open('Movie updated successfully!', 'Close', {
-          duration: 3000
-        });
         const data = this.dataSource.data.filter((value, key) => {
           if ((value.title === result.receivedItem.title) && (value.year === result.receivedItem.year)){
             value.title = result.movie.title;
@@ -95,6 +92,9 @@ export class MovieListComponent implements OnInit {
         this.dataSource.data = [];
         this.dataSource.data = data;
         this.dataSource._updateChangeSubscription();
+        this.snack.open('Movie updated successfully!', 'Close', {
+          duration: 3000
+        });
       }
     });
   }
